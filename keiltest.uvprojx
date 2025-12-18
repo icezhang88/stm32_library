@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\Hardware</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\Hardware;.\System</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -670,6 +670,31 @@
               <FileName>LED.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\LED.h</FilePath>
+            </File>
+            <File>
+              <FileName>Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Key.c</FilePath>
+            </File>
+            <File>
+              <FileName>Key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Key.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>System</GroupName>
+          <Files>
+            <File>
+              <FileName>System.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\System.c</FilePath>
+            </File>
+            <File>
+              <FileName>System.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\System.h</FilePath>
             </File>
           </Files>
         </Group>
