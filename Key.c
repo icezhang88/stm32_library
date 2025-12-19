@@ -2,10 +2,8 @@
 #include "Led.h"
 #include "System.h"
 
-
-void GPIO_Configuration(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
+void key_init(void){
+		GPIO_InitTypeDef GPIO_InitStructure;
 	// 使能GPIOB和AFIO时钟（AFIO用于外部中断引脚映射）
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE);
 
@@ -14,10 +12,8 @@ void GPIO_Configuration(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;	  // 上拉输入模式
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // 输出速率（输入模式下无实际意义，可随便设）
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-}
-
-void EXTI_Configuration(void)
-{
+	
+	//中断配置
 	EXTI_InitTypeDef EXTI_InitStructure;
 
 	// 配置PB11为EXTI11的中断源（AFIO引脚映射）
@@ -30,9 +26,10 @@ void EXTI_Configuration(void)
 	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; // 下降沿触发（按键按下时电平从高到低）
 	EXTI_InitStructure.EXTI_LineCmd = ENABLE;				// 使能EXTI11线
 	EXTI_Init(&EXTI_InitStructure);
+	
 }
-
-
+ 
+ 
 
 
 

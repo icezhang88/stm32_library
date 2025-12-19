@@ -681,6 +681,16 @@
               <FileType>5</FileType>
               <FilePath>.\Key.h</FilePath>
             </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\usart.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
