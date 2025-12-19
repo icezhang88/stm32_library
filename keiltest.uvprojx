@@ -674,22 +674,22 @@
             <File>
               <FileName>Key.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Key.c</FilePath>
+              <FilePath>.\Hardware\Key.c</FilePath>
             </File>
             <File>
               <FileName>Key.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Key.h</FilePath>
+              <FilePath>.\Hardware\Key.h</FilePath>
             </File>
             <File>
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\usart.c</FilePath>
+              <FilePath>.\Hardware\usart.c</FilePath>
             </File>
             <File>
               <FileName>usart.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\usart.h</FilePath>
+              <FilePath>.\Hardware\usart.h</FilePath>
             </File>
           </Files>
         </Group>
