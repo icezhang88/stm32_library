@@ -2,7 +2,7 @@
 #include "LED.h"
 #include "usart.h"
 #include "key.h"  // ????key???????
-#include "adc_collect.h"
+#include "adc_collect_dma.h"
 #include "string.h"
 // ??????????????????????崦???????
 void USART2_RxProcess(uint8_t *rx_buf, uint16_t rx_len)
@@ -23,12 +23,19 @@ void USART2_RxProcess(uint8_t *rx_buf, uint16_t rx_len)
 
 int main(void)
 {
+	
+	 u16 avg_pb0, avg_pb1;
+    float volt_pb0, volt_pb1;
     // ?????????
     init_led();
     USART2_Config();
     key_init();
     NVIC_Configuration();
-	  ADC_Config();
+	   
+	
+	ADC_Config();      // ADC基础配置
+    ADC_DMA_Config();  // DMA配置
+    ADC_Start_DMA_Collect(); // 启动ADC+DMA自动采集
     // ????????????????????????while?????
     USART2_RegisterRxCallback(USART2_RxProcess);
 		 USART2_SendData("system start",strlen("system start"));
@@ -39,17 +46,19 @@ int main(void)
     while (1)
     {
 			 
-			 ADC_GetDualChannelValue(&adc_pb0, &adc_pb1);
-        float volt_pb0 = (float)adc_pb0 * 3.3f / 4095.0f;
-        float volt_pb1 = (float)adc_pb1 * 3.3f / 4095.0f;
-      sprintf(send_buf, "???β????PB0=%d(%.2fV)  PB1=%d(%.2fV)\r\n", 
-                adc_pb0, volt_pb0, adc_pb1, volt_pb1);
-        USART2_SendData(send_buf,strlen(send_buf));
-			Delay_ms(300);
+			      // 从DMA缓冲区中取10次平均值（无需CPU参与采集，直接读取缓冲区）
+        avg_pb0 = ADC_GetAvgValue(ADC_Channel_8, 10);
+        avg_pb1 = ADC_GetAvgValue(ADC_Channel_9, 10);
+
+        // 转换为电压值
+        volt_pb0 = (float)avg_pb0 * 3.3f / 4095.0f;
+        volt_pb1 = (float)avg_pb1 * 3.3f / 4095.0f;
+
+        // 格式化并发送数据
+        sprintf(send_buf, "DMA采集：PB0=%d(%.2fV)  PB1=%d(%.2fV)\r\n",
+                avg_pb0, volt_pb0, avg_pb1, volt_pb1);
+        USART2_SendData((uint8_t*)send_buf, strlen(send_buf));
 			
-        // 2. ???????50??????
-        ADC_ContinuousDualChannel(buf_pb0, buf_pb1, 50);
-			
-			
+				Delay_ms(300);
     }
 }
