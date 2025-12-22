@@ -19,12 +19,11 @@
         {
             "name": "Target 1",
             "includePath": [
-                "c:\\Users\\Administrator\\Desktop\\keil_test\\Start",
-                "c:\\Users\\Administrator\\Desktop\\keil_test\\Library",
-                "c:\\Users\\Administrator\\Desktop\\keil_test\\User",
-                "c:\\Users\\Administrator\\Desktop\\keil_test\\Hardware",
-                "c:\\Users\\Administrator\\Desktop\\keil_test\\System",
-                "c:\\Users\\Administrator\\Desktop\\keil_test"
+                "c:\\Users\\Administrator\\Desktop\\stm32_library\\Start",
+                "c:\\Users\\Administrator\\Desktop\\stm32_library\\Library",
+                "c:\\Users\\Administrator\\Desktop\\stm32_library\\User",
+                "c:\\Users\\Administrator\\Desktop\\stm32_library\\Hardware",
+                "c:\\Users\\Administrator\\Desktop\\stm32_library\\System"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

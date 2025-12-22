@@ -691,6 +691,26 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\usart.h</FilePath>
             </File>
+            <File>
+              <FileName>adc_collect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\adc_collect.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_collect.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\adc_collect.h</FilePath>
+            </File>
+            <File>
+              <FileName>adc_collect_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\adc_collect_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_collect_dma.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\adc_collect_dma.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

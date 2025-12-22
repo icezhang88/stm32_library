@@ -4,7 +4,7 @@
 
 #include "stdint.h"
 
-
+void NVIC_Configuration(void);
 void Delay_ms(uint32_t ms);
 
 
