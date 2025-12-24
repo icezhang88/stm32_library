@@ -4,7 +4,9 @@
 #include "key.h"  // ????key???????
 #include "adc_collect_dma.h"
 #include "string.h"
-// ??????????????????????崦???????
+#include "FreeRTOS.h"
+#include "Task.h"
+
 void USART2_RxProcess(uint8_t *rx_buf, uint16_t rx_len)
 {
     // ???????????????????
@@ -18,14 +20,36 @@ void USART2_RxProcess(uint8_t *rx_buf, uint16_t rx_len)
         toggle_led();  // ?????LED???????LED
     }
 }
+ u16 avg_pb0, avg_pb1;
+    float volt_pb0, volt_pb1;
+char send_buf[64];
+TaskHandle_t adc_handler;
+void adc_task(){
+	
+	while(1){
+			 USART2_SendData("system start",strlen("system start"));
+			 vTaskDelay(pdMS_TO_TICKS(200));
+		//			      // 从DMA缓冲区中取10次平均值（无需CPU参与采集，直接读取缓冲区）
+        avg_pb0 = ADC_GetAvgValue(ADC_Channel_8, 10);
+        avg_pb1 = ADC_GetAvgValue(ADC_Channel_9, 10);
 
- 
+        // 转换为电压值
+        volt_pb0 = (float)avg_pb0 * 3.3f / 4095.0f;
+        volt_pb1 = (float)avg_pb1 * 3.3f / 4095.0f;
+
+        // 格式化并发送数据
+        sprintf(send_buf, "DMA采集：PB0=%d(%.2fV)  PB1=%d(%.2fV)\r\n",
+                avg_pb0, volt_pb0, avg_pb1, volt_pb1);
+        USART2_SendData((uint8_t*)send_buf, strlen(send_buf));
+		
+	}
+	
+}
 
 int main(void)
 {
 	
-	 u16 avg_pb0, avg_pb1;
-    float volt_pb0, volt_pb1;
+	 
     // ?????????
     init_led();
     USART2_Config();
@@ -42,23 +66,27 @@ int main(void)
 	
 		 u16 adc_pb0, adc_pb1;               // PB0(CH8)/PB1(CH9)????
     u16 buf_pb0[50], buf_pb1[50];       // ?????????????
-		char send_buf[64];
+		 
+	
+		xTaskCreate(adc_task,"adc_task",2*1024,NULL,1,&adc_handler);
+		vTaskStartScheduler();
+	
     while (1)
     {
 			 
-			      // 从DMA缓冲区中取10次平均值（无需CPU参与采集，直接读取缓冲区）
-        avg_pb0 = ADC_GetAvgValue(ADC_Channel_8, 10);
-        avg_pb1 = ADC_GetAvgValue(ADC_Channel_9, 10);
+//			      // 从DMA缓冲区中取10次平均值（无需CPU参与采集，直接读取缓冲区）
+//        avg_pb0 = ADC_GetAvgValue(ADC_Channel_8, 10);
+//        avg_pb1 = ADC_GetAvgValue(ADC_Channel_9, 10);
 
-        // 转换为电压值
-        volt_pb0 = (float)avg_pb0 * 3.3f / 4095.0f;
-        volt_pb1 = (float)avg_pb1 * 3.3f / 4095.0f;
+//        // 转换为电压值
+//        volt_pb0 = (float)avg_pb0 * 3.3f / 4095.0f;
+//        volt_pb1 = (float)avg_pb1 * 3.3f / 4095.0f;
 
-        // 格式化并发送数据
-        sprintf(send_buf, "DMA采集：PB0=%d(%.2fV)  PB1=%d(%.2fV)\r\n",
-                avg_pb0, volt_pb0, avg_pb1, volt_pb1);
-        USART2_SendData((uint8_t*)send_buf, strlen(send_buf));
-			
-				Delay_ms(300);
+//        // 格式化并发送数据
+//        sprintf(send_buf, "DMA采集：PB0=%d(%.2fV)  PB1=%d(%.2fV)\r\n",
+//                avg_pb0, volt_pb0, avg_pb1, volt_pb1);
+//        USART2_SendData((uint8_t*)send_buf, strlen(send_buf));
+//			
+//				Delay_ms(300);
     }
 }
